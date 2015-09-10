@@ -52,23 +52,24 @@
                 android:textColor="#ff030001"
                 android:tag="สถาปัตยกรรมศาสตร์"
                 android:onClick="filter"/>
+
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".70"
                 android:background="@android:color/holo_orange_light"
-                android:text="คณะอุตสาหกรรมการเกษตร"
+                android:text="คณะครุศาสตร์อุตสาหกรรม"
                 android:textColor="#ff030001"
-                android:tag="อุตสาหกรรมการเกษตร"
+                android:tag="ครุศาสตร์อุตสาหกรรม"
                 android:onClick="filter"/>
 
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight=".70"
                 android:background="@android:color/holo_orange_dark"
-                android:text="คณะครุศาสตร์อุตสาหกรรม"
+                android:text="คณะอุตสาหกรรมการเกษตร"
                 android:textColor="#ff030001"
-                android:tag="ครุศาสตร์อุตสาหกรรม"
+                android:tag="อุตสาหกรรมการเกษตร"
                 android:onClick="filter"/>
 
             <Button
