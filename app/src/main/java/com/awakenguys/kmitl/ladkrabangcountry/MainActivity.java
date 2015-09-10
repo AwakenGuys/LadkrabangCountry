@@ -38,12 +38,8 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*public void myLocation(View view){
-        Intent intent = new Intent(this,myLocation.class);
-        startActivity(intent);
-    }*/
-    public void view_Building(View view){
-        Intent intent = new Intent(this,Building.class);
+    public void view_Building(View view) {
+        Intent intent = new Intent(this, Building.class);
         startActivity(intent);
     }
 

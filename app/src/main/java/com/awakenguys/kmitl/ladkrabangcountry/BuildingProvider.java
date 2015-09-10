@@ -4,7 +4,6 @@ import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,22 +16,23 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import java.io.File;
+import static com.awakenguys.kmitl.ladkrabangcountry.Constants.FACULTY;
+import static com.awakenguys.kmitl.ladkrabangcountry.Constants.LAT;
+import static com.awakenguys.kmitl.ladkrabangcountry.Constants.LNG;
+import static com.awakenguys.kmitl.ladkrabangcountry.Constants.TABLE_NAME;
+import static com.awakenguys.kmitl.ladkrabangcountry.Constants.TITLE;
+import static com.awakenguys.kmitl.ladkrabangcountry.Constants._ID;
 
 public class BuildingProvider extends ListActivity {
-    private BuildingDB buildingDB;
     private static String[] COLUMNS = {BaseColumns._ID, Constants.TITLE, Constants.FACULTY, Constants.LAT, Constants.LNG};
     private static int[] VIEWS = {R.id.title};
-
+    private BuildingDB buildingDB;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick);
         buildingDB = new BuildingDB(this);
-        if (!buildingDB.checkDataBase(this)) {
-            addAll();
-        }
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             String contains = bundle.getString("contains");
@@ -40,100 +40,22 @@ public class BuildingProvider extends ListActivity {
         }
     }
 
-    private void addAll() {
-        add("อาคารเรียนรวม 12 ชั้น(E12)", "วิศวกรรมศาสตร์", 13.727621f,100.772344f);
-        add("อาคารปฏิบัติการรวม CCA", "วิศวกรรมศาสตร์",13.726530f,100.772984f);
-        add("โรงอาหาร C", "วิศวกรรมศาสตร์",13.726863f,100.772091f);
-        add("อาคารยิมเนเซียม 1", "วิศวกรรมศาสตร์",13.726826f,100.773569f);
-        add("ภาควิชาวิศวกรรมอุตสาหการ", "วิศวกรรมศาสตร์",13.727688f,100.773359f);
-        add("ภาควิชาวิศวกรรมเครื่องกล(ME)", "วิศวกรรมศาสตร์",13.727669f,100.773965f);
-        add("ภาควิชาวิศวกรรมการวัดคุม", "วิศวกรรมศาสตร์",13.727442f,100.774419f);
-        add("โรงอาหาร J", "วิศวกรรมศาสตร์",13.727711f,100.774730f);
-        add("อาคาร B", "วิศวกรรมศาสตร์",13.727556f,100.775307f);
-        add("ภาควิชาวิศวกรรมโทรคมนาคม", "วิศวกรรมศาสตร์",13.727472f,100.776110f);
-        add("หอประชุมสถาบัน", "วิศวกรรมศาสตร์",13.727360f,100.777301f);
-        add("อาคาร A", "วิศวกรรมศาสตร์",13.726974f,100.776373f);
-        add("โรงอาหาร A", "วิศวกรรมศาสตร์",13.726954f,100.775664f);
-        add("สโมสรนักศึกษาวิศวกรรมศาสตร์", "วิศวกรรมศาสตร์",13.726929f,100.774204f);
-        add("ภาควิชาวิศวกรรมโยธา", "วิศวกรรมศาสตร์",13.726951f,100.774367f);
-        add("อาคารเฉลิมพระเกียรติ 84 พรรษาภูมิพลมหาราชา(HM)", "วิศวกรรมศาสตร์",13.726552f,100.775154f);
-        add("อาคารปฏิบัติการไฟฟ้า(L)", "วิศวกรรมศาสตร์",13.728486f,100.775537f);
-        add("โรงอาหาร L", "วิศวกรรมศาสตร์",13.728760f,100.775207f);
-        add("ภาควิชาวิศวกรรมโยธา", "วิศวกรรมศาสตร์",13.726951f,100.774367f);
-        add("อาคารปฏิบัติการรวมวิศวกรรมศาสตร์ 2(ECC)", "วิศวกรรมศาสตร์",13.729158f,100.775511f);
-        add("อาคารบูรณาการ", "สถาปัตยกรรมศาสตร์",13.725755f,100.773841f);
-        add("อาคารเรียนรวมสถาปัตยกรรมศาสตร์", "สถาปัตยกรรมศาสตร์",13.725206f,100.775100f);
-        add("หอประชุมศาสตราจารย์ประสม รังสิโรจน์", "สถาปัตยกรรมศาสตร์",13.725689f,100.775117f);
-        add("สำนักงานคณบดีคณบดีสถาปัตยกรรมศาสตร์", "สถาปัตยกรรมศาสตร์",13.725275f,100.776649f);
-        add("Convention Hall", "ทั่วไป",13.726469f,100.779294f);
-        add("สำนักหอสมุดกลาง", "ทั่วไป",13.727659f,100.778589f);
-        add("อาคารกรมหลวงนราธิวาสราชนครินทร์(สำนักงานอธิการบดี)", "ทั่วไป",13.730806f,100.777616f);
-        add("หอพักนักศึกษา(เก่า)", "ทั่วไป",13.728962f,100.773941f);
-        add("หอพักนักศึกษา(ใหม่)", "ทั่วไป",13.729640f,100.774683f);
-        add("สมาคมศิษย์เก่า", "ทั่วไป",13.731067f,100.774665f);
-        add("อาคารเรียนรวมสมเด็จพระเทพฯ", "ทั่วไป",13.730115f,100.776802f);
-        add("อาคารเฉลิมพระเกียรติ 55 พรรษา สมเด็จพระเทพฯ", "ทั่วไป",13.729952f,100.775283f);
-        add("อาคารองค์การนักศึกษา", "ทั่วไป",13.728772f,100.778624f);
-        add("อาคารสำนักบริการคอมพิวเตอร์", "ทั่วไป",13.731218f,100.780278f);
-        add("อาคารวิทยาลัยการบริหารและจัดการ", "วิทยาลัยการบริหารและการจัดการ",13.731218f,100.780278f);
-        add("อาคารหอพระราชประวัติ ร.4", "ทั่วไป",13.731213f,100.778577f);
-        add("สนามกีฬากลางพระจอมเกล้าลาดกระบัง", "ทั่วไป",13.730202f,100.772183f);
-        add("อาคารยิมเนเซี่ยม 2", "ทั่วไป",13.728669f,100.772869f);
-        add("อาคารฝึกงานซ่อมสร้างวิทยาศาสตร์", "วิทยาศาสตร์",13.729298f,100.778598f);
-        add("อาคารคณะวิทยาศาสตร์", "วิทยาศาสตร์",13.729261f,100.779189f);
-        add("อาคารหอประชุมจุฬาภรณ์วลัยลักษณ์", "วิทยาศาสตร์",13.729708f,100.779698f);
-        add("อาคารจุฬาภรณ์วลัยลักษณ์ 1", "วิทยาศาสตร์",13.729658f,100.779978f);
-        add("หอประชุมจุฬาพรณ์", "วิทยาศาสตร์",13.729842f,100.779333f);
-        add("อาคารจุฬาภรณ์วลัยลักษณ์ 2", "วิทยาศาสตร์",13.730232f,100.779318f);
-        add("อาคารปฏิบัติการใหม่", "วิทยาศาสตร์",13.729046f,100.779856f);
-        add("อาคารกิจกรรม", "วิทยาศาสตร์",13.728947f,100.778425f);
-        add("อาคารปฏิบัติการพิเศษจอมไตร", "วิทยาศาสตร์",13.729574f,100.780795f);
-        add("อาคารคณะเทคโนโลยีสารสนเทศ", "เทคโนโลยีสารสนเทศ",13.730976f,100.781116f);
-        add("โรงอาหารคณะเทคโนโลยีสารสนเทศ", "วิทยาศาสตร์",13.731161f,100.782077f);
-        add("อาคารจุฬาภรณ์วลัยลักษณ์ 1", "วิทยาศาสตร์",13.729658f,100.779978f);
-        add("อาคารภาควิชาวิจิตรศิลป์", "สถาปัตยกรรมศาสตร์",13.724917f,100.773337f);
-        add("หอศิลป์พระจอมเกล้า", "สถาปัตยกรรมศาสตร์",13.726315f,100.776421f);
-        add("อาคาร 2", "สถาปัตยกรรมศาสตร์",13.725519f,100.775958f);
-        add("ศาลาคุณหญิงหรัง กันตารัติและคุณชวลิลร์ กันตารัติ(บุตร)", "สถาปัตยกรรมศาสตร์",13.724950f,100.775981f);
-        add("โรงปฏิบัติงานไม้", "สถาปัตยกรรมศาสตร์",13.724915f,100.777545f);
-        add("โรงปฏิบัติงานโลหะ", "สถาปัตยกรรมศาสตร์",13.724899f,100.777132f);
-        add("โรงปฏิบัติงานเครื่องปั้นดินเผา", "สถาปัตยกรรมศาสตร์",13.725209f,100.777547f);
-        add("โรงปฏิบัติงานศิลป์", "สถาปัตยกรรมศาสตร์",13.725200f,100.777154f);
-        add("โรงปฏิบัติสถาปัตย์ภายใน", "สถาปัตยกรรมศาสตร์",13.725520f,100.777530f);
-        add("โรงปฏิบัติสถาปัตย์อุตสาหกรรม", "สถาปัตยกรรมศาสตร์",13.725512f,100.777120f);
-        add("โรงปฏิบัติงานสิ่งทอ", "สถาปัตยกรรมศาสตร์",13.725802f,100.777549f);
-        add("อาคารปฏิบัติการด้านพลังงาน", "สถาปัตยกรรมศาสตร์",13.725941f,100.777094f);
-    }
-
-    private void add(String title, String faculty, float lat, float lng) {
-        SQLiteDatabase db = buildingDB.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(Constants.TITLE, title);
-        values.put(Constants.FACULTY, faculty);
-        values.put(Constants.LAT, lat);
-        values.put(Constants.LNG, lng);
-        db.insertOrThrow(Constants.TABLE_NAME, null, values);
-    }
-
 
     public Cursor getAll() {
         SQLiteDatabase db = buildingDB.getReadableDatabase();
-        Cursor cursor = db.query(Constants.TABLE_NAME, COLUMNS, null, null, null, null, Constants.TITLE + (" ASC"));
-        return cursor;
+        return db.query(Constants.TABLE_NAME, COLUMNS, null, null, null, null, Constants.TITLE + (" ASC"));
     }
 
     public Cursor getByFaculty(String faculty) {
         SQLiteDatabase db = buildingDB.getReadableDatabase();
-        Cursor cursor = db.query(Constants.TABLE_NAME, COLUMNS, "faculty=?", new String[]{faculty},
+        return db.query(Constants.TABLE_NAME, COLUMNS, "faculty=?", new String[]{faculty},
                 null, null, Constants.TITLE + " ASC");
-        return cursor;
     }
 
     public Cursor getById(long id) {
         SQLiteDatabase db = buildingDB.getReadableDatabase();
-        Cursor cursor = db.query(Constants.TABLE_NAME, COLUMNS, "_id=?", new String[]{(int) id + ""},
+        return db.query(Constants.TABLE_NAME, COLUMNS, "_id=?", new String[]{(int) id + ""},
                 null, null, Constants.TITLE + " ASC");
-        return cursor;
     }
 
     @Override
@@ -172,13 +94,12 @@ public class BuildingProvider extends ListActivity {
     }
 
 
-    public void showFilter(String  str){
+    public void showFilter(String str) {
         Cursor cursor;
         try {
-            if(str.equals("")) {
+            if (str.equals("")) {
                 cursor = getAll();
-            }
-            else {
+            } else {
                 cursor = getByFaculty(str);
             }
             show(cursor);
@@ -194,12 +115,11 @@ public class BuildingProvider extends ListActivity {
     }
 
 
-
 }
 
 class BuildingDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "building.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     public BuildingDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -207,19 +127,88 @@ class BuildingDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + Constants.TABLE_NAME + " (" + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + Constants.TITLE + " TEXT, " + Constants.FACULTY + " TEXT, " + Constants.LAT + " FLOAT, " + Constants.LNG + " FLOAT);");
-
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + TITLE + " TEXT, " + FACULTY + " TEXT, " + LAT + " FLOAT, " + LNG + " FLOAT);");
+        addAll(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS buildings");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 
-    public boolean checkDataBase(ContextWrapper context) {
-        File dbFile = context.getDatabasePath(DATABASE_NAME);
-        return dbFile.exists();
+    private void addAll(SQLiteDatabase db) {
+        add(db, "อาคารเรียนรวม 12 ชั้น(E12)", "วิศวกรรมศาสตร์", 13.727621f, 100.772344f);
+        add(db, "อาคารปฏิบัติการรวม CCA", "วิศวกรรมศาสตร์", 13.726530f, 100.772984f);
+        add(db, "โรงอาหาร C", "วิศวกรรมศาสตร์", 13.726863f, 100.772091f);
+        add(db, "อาคารยิมเนเซียม 1", "วิศวกรรมศาสตร์", 13.726826f, 100.773569f);
+        add(db, "ภาควิชาวิศวกรรมอุตสาหการ", "วิศวกรรมศาสตร์", 13.727688f, 100.773359f);
+        add(db, "ภาควิชาวิศวกรรมเครื่องกล(ME)", "วิศวกรรมศาสตร์", 13.727669f, 100.773965f);
+        add(db, "ภาควิชาวิศวกรรมการวัดคุม", "วิศวกรรมศาสตร์", 13.727442f, 100.774419f);
+        add(db, "โรงอาหาร J", "วิศวกรรมศาสตร์", 13.727711f, 100.774730f);
+        add(db, "อาคาร B", "วิศวกรรมศาสตร์", 13.727556f, 100.775307f);
+        add(db, "ภาควิชาวิศวกรรมโทรคมนาคม", "วิศวกรรมศาสตร์", 13.727472f, 100.776110f);
+        add(db, "หอประชุมสถาบัน", "วิศวกรรมศาสตร์", 13.727360f, 100.777301f);
+        add(db, "อาคาร A", "วิศวกรรมศาสตร์", 13.726974f, 100.776373f);
+        add(db, "โรงอาหาร A", "วิศวกรรมศาสตร์", 13.726954f, 100.775664f);
+        add(db, "สโมสรนักศึกษาวิศวกรรมศาสตร์", "วิศวกรรมศาสตร์", 13.726929f, 100.774204f);
+        add(db, "ภาควิชาวิศวกรรมโยธา", "วิศวกรรมศาสตร์", 13.726951f, 100.774367f);
+        add(db, "อาคารเฉลิมพระเกียรติ 84 พรรษาภูมิพลมหาราชา(HM)", "วิศวกรรมศาสตร์", 13.726552f, 100.775154f);
+        add(db, "อาคารปฏิบัติการไฟฟ้า(L)", "วิศวกรรมศาสตร์", 13.728486f, 100.775537f);
+        add(db, "โรงอาหาร L", "วิศวกรรมศาสตร์", 13.728760f, 100.775207f);
+        add(db, "ภาควิชาวิศวกรรมโยธา", "วิศวกรรมศาสตร์", 13.726951f, 100.774367f);
+        add(db, "อาคารปฏิบัติการรวมวิศวกรรมศาสตร์ 2(ECC)", "วิศวกรรมศาสตร์", 13.729158f, 100.775511f);
+        add(db, "อาคารบูรณาการ", "สถาปัตยกรรมศาสตร์", 13.725755f, 100.773841f);
+        add(db, "อาคารเรียนรวมสถาปัตยกรรมศาสตร์", "สถาปัตยกรรมศาสตร์", 13.725206f, 100.775100f);
+        add(db, "หอประชุมศาสตราจารย์ประสม รังสิโรจน์", "สถาปัตยกรรมศาสตร์", 13.725689f, 100.775117f);
+        add(db, "สำนักงานคณบดีคณบดีสถาปัตยกรรมศาสตร์", "สถาปัตยกรรมศาสตร์", 13.725275f, 100.776649f);
+        add(db, "Convention Hall", "ทั่วไป", 13.726469f, 100.779294f);
+        add(db, "สำนักหอสมุดกลาง", "ทั่วไป", 13.727659f, 100.778589f);
+        add(db, "อาคารกรมหลวงนราธิวาสราชนครินทร์(สำนักงานอธิการบดี)", "ทั่วไป", 13.730806f, 100.777616f);
+        add(db, "หอพักนักศึกษา(เก่า)", "ทั่วไป", 13.728962f, 100.773941f);
+        add(db, "หอพักนักศึกษา(ใหม่)", "ทั่วไป", 13.729640f, 100.774683f);
+        add(db, "สมาคมศิษย์เก่า", "ทั่วไป", 13.731067f, 100.774665f);
+        add(db, "อาคารเรียนรวมสมเด็จพระเทพฯ", "ทั่วไป", 13.730115f, 100.776802f);
+        add(db, "อาคารเฉลิมพระเกียรติ 55 พรรษา สมเด็จพระเทพฯ", "ทั่วไป", 13.729952f, 100.775283f);
+        add(db, "อาคารองค์การนักศึกษา", "ทั่วไป", 13.728772f, 100.778624f);
+        add(db, "อาคารสำนักบริการคอมพิวเตอร์", "ทั่วไป", 13.731218f, 100.780278f);
+        add(db, "อาคารวิทยาลัยการบริหารและจัดการ", "วิทยาลัยการบริหารและการจัดการ", 13.731218f, 100.780278f);
+        add(db, "อาคารหอพระราชประวัติ ร.4", "ทั่วไป", 13.731213f, 100.778577f);
+        add(db, "สนามกีฬากลางพระจอมเกล้าลาดกระบัง", "ทั่วไป", 13.730202f, 100.772183f);
+        add(db, "อาคารยิมเนเซี่ยม 2", "ทั่วไป", 13.728669f, 100.772869f);
+        add(db, "อาคารฝึกงานซ่อมสร้างวิทยาศาสตร์", "วิทยาศาสตร์", 13.729298f, 100.778598f);
+        add(db, "อาคารคณะวิทยาศาสตร์", "วิทยาศาสตร์", 13.729261f, 100.779189f);
+        add(db, "อาคารหอประชุมจุฬาภรณ์วลัยลักษณ์", "วิทยาศาสตร์", 13.729708f, 100.779698f);
+        add(db, "อาคารจุฬาภรณ์วลัยลักษณ์ 1", "วิทยาศาสตร์", 13.729658f, 100.779978f);
+        add(db, "หอประชุมจุฬาพรณ์", "วิทยาศาสตร์", 13.729842f, 100.779333f);
+        add(db, "อาคารจุฬาภรณ์วลัยลักษณ์ 2", "วิทยาศาสตร์", 13.730232f, 100.779318f);
+        add(db, "อาคารปฏิบัติการใหม่", "วิทยาศาสตร์", 13.729046f, 100.779856f);
+        add(db, "อาคารกิจกรรม", "วิทยาศาสตร์", 13.728947f, 100.778425f);
+        add(db, "อาคารปฏิบัติการพิเศษจอมไตร", "วิทยาศาสตร์", 13.729574f, 100.780795f);
+        add(db, "อาคารคณะเทคโนโลยีสารสนเทศ", "เทคโนโลยีสารสนเทศ", 13.730976f, 100.781116f);
+        add(db, "โรงอาหารคณะเทคโนโลยีสารสนเทศ", "วิทยาศาสตร์", 13.731161f, 100.782077f);
+        add(db, "อาคารภาควิชาวิจิตรศิลป์", "สถาปัตยกรรมศาสตร์", 13.724917f, 100.773337f);
+        add(db, "หอศิลป์พระจอมเกล้า", "สถาปัตยกรรมศาสตร์", 13.726315f, 100.776421f);
+        add(db, "อาคาร 2", "สถาปัตยกรรมศาสตร์", 13.725519f, 100.775958f);
+        add(db, "ศาลาคุณหญิงหรัง กันตารัติและคุณชวลิลร์ กันตารัติ(บุตร)", "สถาปัตยกรรมศาสตร์", 13.724950f, 100.775981f);
+        add(db, "โรงปฏิบัติงานไม้", "สถาปัตยกรรมศาสตร์", 13.724915f, 100.777545f);
+        add(db, "โรงปฏิบัติงานโลหะ", "สถาปัตยกรรมศาสตร์", 13.724899f, 100.777132f);
+        add(db, "โรงปฏิบัติงานเครื่องปั้นดินเผา", "สถาปัตยกรรมศาสตร์", 13.725209f, 100.777547f);
+        add(db, "โรงปฏิบัติงานศิลป์", "สถาปัตยกรรมศาสตร์", 13.725200f, 100.777154f);
+        add(db, "โรงปฏิบัติสถาปัตย์ภายใน", "สถาปัตยกรรมศาสตร์", 13.725520f, 100.777530f);
+        add(db, "โรงปฏิบัติสถาปัตย์อุตสาหกรรม", "สถาปัตยกรรมศาสตร์", 13.725512f, 100.777120f);
+        add(db, "โรงปฏิบัติงานสิ่งทอ", "สถาปัตยกรรมศาสตร์", 13.725802f, 100.777549f);
+        add(db, "อาคารปฏิบัติการด้านพลังงาน", "สถาปัตยกรรมศาสตร์", 13.725941f, 100.777094f);
+
+    }
+
+    private void add(SQLiteDatabase db, String title, String faculty, float lat, float lng) {
+        ContentValues values = new ContentValues();
+        values.put(TITLE, title);
+        values.put(FACULTY, faculty);
+        values.put(LAT, lat);
+        values.put(LNG, lng);
+        db.insertOrThrow(TABLE_NAME, null, values);
     }
 }
