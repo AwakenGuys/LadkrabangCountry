@@ -82,8 +82,4 @@ public class Main_Tran extends ActionBarActivity implements View.OnClickListener
         Intent intent = new Intent(this, Tran_Train.class);
         startActivity(intent);
     }
-    public void Menu_Van1(View view){
-        Intent intent = new Intent(this, Menu_Van.class);
-        startActivity(intent);
-    }
 }
